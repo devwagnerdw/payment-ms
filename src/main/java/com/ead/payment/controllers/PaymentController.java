@@ -7,6 +7,7 @@ import com.ead.payment.models.UserModel;
 import com.ead.payment.services.PaymentService;
 import com.ead.payment.services.UserService;
 import com.ead.payment.specifications.SpecificationTemplate;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;

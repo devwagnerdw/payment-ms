@@ -3,10 +3,12 @@ package com.ead.payment.models;
 import com.ead.payment.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
+
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;

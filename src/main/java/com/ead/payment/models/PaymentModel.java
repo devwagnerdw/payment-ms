@@ -4,9 +4,9 @@ import com.ead.payment.dtos.PaymentEventDto;
 import com.ead.payment.enums.PaymentControl;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

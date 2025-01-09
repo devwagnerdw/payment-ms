@@ -1,8 +1,8 @@
 package com.ead.payment.dtos;
 
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class PaymentRequestDto {
