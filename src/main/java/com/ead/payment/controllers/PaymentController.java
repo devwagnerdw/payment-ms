@@ -7,6 +7,9 @@ import com.ead.payment.models.UserModel;
 import com.ead.payment.services.PaymentService;
 import com.ead.payment.services.UserService;
 import com.ead.payment.specifications.SpecificationTemplate;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +38,13 @@ public class PaymentController {
 
     @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("/users/{userId}/payments")
+    @Operation(summary = "Solicitar pagamento", description = "Este endpoint permite que um usuário solicite um pagamento, com validação para garantir que um pagamento anterior não tenha sido solicitado ou efetuado.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "Pagamento solicitado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "409", description = "Já existe um pagamento solicitado ou efetuado"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado")
+    })
     public ResponseEntity<Object> requestPayment(@PathVariable(value="userId") UUID userId,
                                                  @RequestBody @Valid PaymentRequestDto paymentRequestDto){
         Optional<UserModel> userModelOptional = userService.findById(userId);
@@ -57,6 +67,12 @@ public class PaymentController {
 
     @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/users/{userId}/payments")
+    @Operation(summary = "Listar todos os pagamentos de um usuário", description = "Retorna todos os pagamentos de um usuário específico com paginação.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pagamentos encontrados com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado")
+    })
     public ResponseEntity<Page<PaymentModel>> getAllPayments(@PathVariable(value="userId") UUID userId,
                                                              SpecificationTemplate.PaymentSpec spec,
                                                              @PageableDefault(page = 0, size = 10, sort = "paymentId", direction = Sort.Direction.DESC) Pageable pageable){
@@ -65,6 +81,12 @@ public class PaymentController {
 
     @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/users/{userId}/payments/{paymentId}")
+    @Operation(summary = "Obter um pagamento de um usuário", description = "Retorna os detalhes de um pagamento específico de um usuário.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pagamento encontrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Pagamento não encontrado para este usuário"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado")
+    })
     public ResponseEntity<Object> getOnePayment(@PathVariable(value="userId") UUID userId,
                                                 @PathVariable(value="paymentId") UUID paymentId){
         Optional<PaymentModel> paymentModelOptional = paymentService.findPaymentByUser(userId, paymentId);
